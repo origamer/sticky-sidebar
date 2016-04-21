@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <style>
+        body {
+            background-color: white;
+            padding: 0;
+            margin: 0;
+        }
+
+        #main {
+            display: block;
+            max-width: 740px;
+            margin: 0 auto;
+        }
+
+        header {
+            background-color: #1D1F21;
+            color: whitesmoke;
+            height: 200px;
+            overflow: auto;
+            text-align: center;
+        }
+
+        article {
+            background-color: tan;
+            color: black;
+            display: block;
+            float: left;
+            width: 485px;
+            overflow: auto;
+        }
+
+        #nav {
+            background-color: gray;
+            display: block;
+            margin-left: 500px;
+            color: whitesmoke;
+            text-align: center;
+            line-height: 50px;
+        }
+
+        footer {
+            background-color: #1D1F21;
+            position: relative;
+            height: 800px;
+            color: whitesmoke;
+            clear: both;
+            overflow: auto;
+            text-align: center;
+            margin: 0;
+        }
+
+        .inner {
+            margin: 1em;
+            font-size: 110%;
+        }
+
+        .inner2 a {
+            color: black;
+        }
+
+        .sticky {
+            position: fixed;
+            z-index: 101;
+        }
+
+        .stop {
+            position: relative;
+            z-index: 101;
+        }
+    </style>
+</head>
+
+<body>
+  <header>
+    <h1>Lorem ipsum</h1>
+  </header>
+
+  <div id="main">
+    <article id="article">
+      <div class="inner">
+        <h2><a id="ch1">Chapter 1</a></h2>
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+        <h2><a id="ch2">Chapter 2</a></h2>
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+        <h2><a id="ch3">Chapter 3</a></h2>
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+        <h2><a id="ch4">Chapter 4</a></h2>
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+        <h2><a id="ch5">Chapter 5</a></h2>
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+      </div>
+    </article>
+
+    <div id="nav">
+        <div class="inner2">
+          <a href="#ch1">Chapter 1<br></a>
+          <a href="#ch2">Chapter 2<br></a>
+          <a href="#ch3">Chapter 3<br></a>
+          <a href="#ch4">Chapter 4<br></a>
+          <a href="#ch5">Chapter 5<br></a>
+        </div>
+    </div>
+  </div>
+
+  <footer>
+    Copyright &copy; some.name@example.com
+  </footer>
+
+<script>
+(function() { // анонимная функция для того, чтобы переменные navElem, b не стали глобальными
+    var navElem = document.querySelector('#nav'), // селектор блока, который нужно закрепить
+        navElemChild = null, 
+        P = 0;
+
+    window.addEventListener('scroll', scrollIt, false);
+    document.body.addEventListener('scroll', scrollIt, false); // если высота html, body равна 100%
+    function scrollIt() {
+        if (navElemChild == null) { // добавить потомка-обёртку, чтобы убрать зависимость с соседями
+            var navStyle = getComputedStyle(navElem, ''), s = '';
+            for (var i=0; i < navStyle.length; i++) { // перечислить стили CSS, которые нужно скопировать с родителя
+                if (navStyle[i].indexOf('overflow')==0 
+                    || navStyle[i].indexOf('padding')==0 
+                    || navStyle[i].indexOf('border')==0 
+                    || navStyle[i].indexOf('outline')==0 
+                    || navStyle[i].indexOf('box-shadow')==0 
+                    || navStyle[i].indexOf('background-color')==0) {
+                    s += navStyle[i] + ':' + navStyle.getPropertyValue(navStyle[i]) + '; '
+                }
+            }
+            navElemChild = document.createElement('div'); // создать потомка
+            navElemChild.style.cssText = s + ' box-sizing: border-box; width: ' + navElem.offsetWidth + 'px;';
+            navElem.insertBefore(navElemChild, navElem.firstChild); // поместить потомка в цепляющийся блок первым
+            var l = navElem.childNodes.length;
+            for (var i=1; i<l; i++) {
+                navElemChild.appendChild(navElem.childNodes[1]);
+            }
+            navElem.style.height = navElemChild.getBoundingClientRect().height + 'px';
+            navElem.style.padding = '0';
+            navElem.style.border = '0';
+        }
+
+        var navRect = navElem.getBoundingClientRect(), // селектор блока, при достижении верхнего края которого нужно открепить прилипающий элемент;
+            Rect = Math.round(navRect.top + navElemChild.getBoundingClientRect().height - document.querySelector('footer').getBoundingClientRect().top + 0);//Math.round() только для IE; //если ноль заменить на число, то блок будет прилипать до того, как нижний край элемента дойдёт до футера
+        if ((navRect.top - P) <= 0) {
+            if ((navRect.top - P) <= Rect) {
+                navElemChild.className = 'stop';
+                navElemChild.style.top = - Rect + 'px';
+            } else {
+                navElemChild.className = 'sticky';
+                navElemChild.style.top = P + 'px';
+            }
+        } else {
+            navElemChild.className = '';
+            navElemChild.style.top = '';
+        }
+
+        window.addEventListener('resize', function() {
+        navElem.children[0].style.width = getComputedStyle(navElem,'').width
+        }, false); // если изменить размер окна браузера, измениться ширина элемента              
+    }
+
+    var chapters = document.querySelector('article').querySelector('.inner').children,
+        navChapters = document.querySelector('#nav').querySelector('.inner2').children;
+    
+    window.onscroll = function () { // функция для подсветки пунктов бокового меню
+        for(var i=0; i<chapters.length; i++) {
+            if (chapters[i].getBoundingClientRect().top < 3 && chapters[i].getBoundingClientRect().top > -200) {
+                navChapters[i].style.color = 'white';
+            } else {
+                navChapters[i].style.color = 'black';
+            }
+        }
+    }
+})()
+</script>
+
+</body>
+
+</html>
